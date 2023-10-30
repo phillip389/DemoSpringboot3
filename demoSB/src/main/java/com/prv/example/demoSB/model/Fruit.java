@@ -4,15 +4,22 @@ package com.prv.example.demoSB.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "fruits")
+@Table(name = "fruit")
 public class Fruit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "FRUIT_ID")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "NAME")
     private String name;
+
+    public Fruit(final Long id) {
+        this.id = id;
+    }
+
+    public Fruit() {}
 
     public Long getId() {
         return this.id;

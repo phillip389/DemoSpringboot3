@@ -5,6 +5,8 @@ import com.prv.example.demoSB.services.FruitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -20,6 +22,11 @@ public class FruitController {
         return "Hello there, mate!";
     }
 
+    @GetMapping("/all")
+    public List<Fruit> getAllFruits() {
+        return new ArrayList<>();
+    }
+
     @GetMapping("/{id}")
     public Optional<Fruit> getFruit(@PathVariable("id") Long id) {
 
@@ -29,6 +36,11 @@ public class FruitController {
     @GetMapping("/orange")
     public Fruit getOrange() {
         return this.service.getMeAnOrange();
+    }
+
+    @PostMapping("/update/{id}")
+    public Optional<Fruit> renameFruit(@PathVariable("id") final Long id, final String newName) {
+        return this.service.updateFruitById(id, newName);
     }
 
     @PutMapping("/add")

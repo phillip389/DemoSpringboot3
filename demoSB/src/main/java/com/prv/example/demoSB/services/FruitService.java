@@ -44,23 +44,25 @@ public class FruitService {
     }
 
     @Transactional
-    public void updateFruitById(final Long id, final String name) {
+    public Optional<Fruit> updateFruitById(final Long id, final String name) {
         final Optional<Fruit> fruitToUpdate = this.fruitRepository.findById(id);
         fruitToUpdate.ifPresent(fruit -> {
             fruit.setName(name);
             this.fruitRepository.saveAndFlush(fruit);
         });
+        return fruitToUpdate;
     }
 
     @Transactional
-    public void updateFruitByName(final String oldName, final String newName) {
+    public Fruit updateFruitByName(final String oldName, final String newName) {
         final Fruit fruit = new Fruit();
         fruit.setName(oldName);
         final Fruit fruitToUpdate = entityManager.find(Fruit.class, fruit);
         if(fruitToUpdate != null) {
             fruit.setName(newName);
-            this.fruitRepository.saveAndFlush(fruit);
+            return this.fruitRepository.saveAndFlush(fruit);
         }
+        return null;
     }
 
 }

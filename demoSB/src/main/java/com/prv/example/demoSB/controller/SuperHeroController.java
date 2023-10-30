@@ -1,7 +1,10 @@
 package com.prv.example.demoSB.controller;
 
 import com.prv.example.demoSB.model.Fruit;
+import com.prv.example.demoSB.model.Hero;
+import com.prv.example.demoSB.model.Superhero;
 import com.prv.example.demoSB.services.FruitService;
+import com.prv.example.demoSB.services.SuperheroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,28 +15,28 @@ import java.util.Optional;
 public class SuperHeroController {
 
     @Autowired
-    private FruitService service;
+    private SuperheroService service;
 
     @GetMapping("/")
     public String getHelloWorld() {
 
-        return "Hello there, mate!";
+        return "Hello there, Big Hero 6!";
     }
 
     @GetMapping("/{id}")
-    public Optional<Fruit> getFruit(@PathVariable("id") Long id) {
+    public Optional<Superhero> getFruit(@PathVariable("id") Long id) {
 
         return this.service.findById(id);
     }
 
-    @GetMapping("/orange")
-    public Fruit getOrange() {
-        return this.service.getMeAnOrange();
+    @GetMapping("/findOne")
+    public Optional<Superhero> getAHero() {
+        return this.service.getMeAHero();
     }
 
     @PutMapping("/add")
-    public Fruit addNewHero(final String fruitName) {
-        return this.service.addNewFruit(fruitName);
+    public Superhero addNewHero(final Hero hero) {
+        return this.service.addNewHero(hero);
     }
 
 }
