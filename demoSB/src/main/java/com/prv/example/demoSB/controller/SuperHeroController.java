@@ -27,7 +27,7 @@ public class SuperHeroController {
     }
 
     @PostMapping("/search")
-    public List<Superhero> searchSuperheroes(@RequestBody  final Hero hero) {
+    public List<Superhero> searchSuperheroes(@RequestBody final Hero hero) {
         return this.service.searchSuperheroes(hero);
     }
 
@@ -43,8 +43,13 @@ public class SuperHeroController {
     }
 
     @PutMapping("/")
-    public Superhero addNewHero(final Hero hero) {
+    public Superhero addNewHero(@RequestBody final Hero hero) {
         return this.service.addNewHero(hero);
+    }
+
+    @PostMapping("/{id}")
+    public Superhero updateHero(@PathVariable("id") final Long id, final Hero hero) {
+        return this.service.updateHero(id, hero);
     }
 
     @DeleteMapping("/{id}")

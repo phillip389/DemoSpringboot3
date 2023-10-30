@@ -1,10 +1,8 @@
 package com.prv.example.demoSB.services;
 
 import com.prv.example.demoSB.converter.SuperheroConverter;
-import com.prv.example.demoSB.model.Fruit;
 import com.prv.example.demoSB.model.Hero;
 import com.prv.example.demoSB.model.Superhero;
-import com.prv.example.demoSB.repositories.FruitRepository;
 import com.prv.example.demoSB.repositories.SuperheroRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -12,7 +10,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,9 +38,15 @@ public class SuperheroService {
     }
 
     public Superhero addNewHero(final Hero hero) {
-        final Superhero heroToSave = this.converter.convertHero(hero);
+        final Superhero heroToCreate = this.converter.convertHero(hero);
 
-        return this.heroRepository.saveAndFlush(heroToSave);
+        return this.heroRepository.saveAndFlush(heroToCreate);
+    }
+
+    public Superhero updateHero(final Long id, final Hero hero) {
+        final Superhero heroToUpdate = this.converter.convertHero(hero);
+        heroToUpdate.setId(id);
+        return this.heroRepository.saveAndFlush(heroToUpdate);
     }
 
     public Optional<Superhero> getMeAHero() {
