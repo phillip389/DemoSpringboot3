@@ -8,9 +8,12 @@ import com.prv.example.demoSB.repositories.FruitRepository;
 import com.prv.example.demoSB.repositories.SuperheroRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -33,9 +36,9 @@ public class SuperheroService {
         return this.heroRepository.findById(id);
     }
 
-    ///public Superhero getMeAnHero() {
-       // return this.heroRepository.getMeAHero();
-    //}
+    public List<Superhero> getAllHeroes() {
+        return new ArrayList<>(this.heroRepository.findAll());
+    }
 
     public Superhero addNewHero(final Hero hero) {
         final Superhero heroToSave = this.converter.convertHero(hero);
@@ -47,6 +50,17 @@ public class SuperheroService {
         final Random random = new Random();
         final List<Superhero> list = this.heroRepository.findAll();
         return list.stream().skip(random.nextInt(list.size())).findFirst();
+    }
+
+    @Transactional
+    public void deleteHero(final Long id) {
+        this.heroRepository.deleteById(id);
+
+    }
+
+    @Transactional
+    public List<Superhero> searchSuperheroes(final Hero hero) {
+        return this.heroRepository.findByNameOrPower(hero.getName(), hero.getPower());
     }
 
 

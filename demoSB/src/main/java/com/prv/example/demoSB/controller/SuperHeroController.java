@@ -6,8 +6,12 @@ import com.prv.example.demoSB.model.Superhero;
 import com.prv.example.demoSB.services.FruitService;
 import com.prv.example.demoSB.services.SuperheroService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,9 +22,13 @@ public class SuperHeroController {
     private SuperheroService service;
 
     @GetMapping("/")
-    public String getHelloWorld() {
+    public List<Superhero> getHelloWorld() {
+        return this.service.getAllHeroes();
+    }
 
-        return "Hello there, Big Hero 6!";
+    @PostMapping("/search")
+    public List<Superhero> searchSuperheroes(@RequestBody  final Hero hero) {
+        return this.service.searchSuperheroes(hero);
     }
 
     @GetMapping("/{id}")
@@ -34,9 +42,16 @@ public class SuperHeroController {
         return this.service.getMeAHero();
     }
 
-    @PutMapping("/add")
+    @PutMapping("/")
     public Superhero addNewHero(final Hero hero) {
         return this.service.addNewHero(hero);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteHero(@PathVariable("id") final Long id) {
+
+        this.service.deleteHero(id);
+
     }
 
 }
